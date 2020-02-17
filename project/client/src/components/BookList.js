@@ -1,4 +1,5 @@
-import React , {Component} from 'react'; 
+import React , {Component} from 'react';
+ 
 import {graphql} from 'react-apollo' //it helps us to bind apoolo to react
 import { getBooksQuery } from '../queries/queries'
 
@@ -9,6 +10,7 @@ class BookList extends Component{
             return (<div>Loading Books....</div>)
         }
         else{
+            console.log(data)
             return data.books.map(book => {
                 return (
                 <li key={book.id}>{ book.name }</li>
@@ -28,4 +30,4 @@ class BookList extends Component{
 }
 
 export default graphql(getBooksQuery)(BookList);
-//It is saying that bind the getbooksquery to the booklist component
+//It is saying that bnd the getbooksquery to the booklist component
