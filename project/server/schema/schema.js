@@ -50,7 +50,7 @@ var AuthorType = new GraphQLObjectType({
 
 var RootQuery = new GraphQLObjectType({
     name : 'RootQueryType',
-    field : { //It contains the all types of queries
+    fields : { //It contains the all types of queries
         book : {    
             type : BookType,
             args : {id : {type : GraphQLID}}, //this data type is just for the ease of graphql and in the backend its being used and manipulated as a string
@@ -81,6 +81,29 @@ var RootQuery = new GraphQLObjectType({
     }
 })
 
+const Mutation =  new GraphQLObjectType({
+    name : 'Mutation',
+    fields : {
+        addAuthor : {
+            type : AuthorType,
+            args : {
+                name : { type : GraphQLString},
+                age : { type : GraphQLInt}
+            },
+            resolve(parent, args){
+                let author = new Authors({
+                    name : args.name,
+                    age : args.age
+                })
+               return  author.save()
+            }
+        }
+    }
+
+})
+
+
 module.exports = new GraphQLSchema({
-    query  : RootQuery
+    query  : RootQuery,
+    mutation : Mutation
 })
