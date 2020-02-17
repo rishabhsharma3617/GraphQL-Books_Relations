@@ -57,7 +57,7 @@ var RootQuery = new GraphQLObjectType({
         books : {
             type : new GraphQLList(BookType),
             resolve(parent , args){
-                //return the all boooks from the monho
+                //return the all boooks from the mongodb
             }
         },
         author : {
@@ -65,6 +65,12 @@ var RootQuery = new GraphQLObjectType({
             args : {id : {type : GraphQLID}},
             resolve(parent,args){
                 //Will use the mongoose code to do the value
+            }
+        },
+        authors : {
+            type : new GraphQLList(AuthorType),
+            resolve(parent,args){
+                //it will return the authors from the authors collection
             }
         }
     }
