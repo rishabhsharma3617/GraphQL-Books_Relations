@@ -1,25 +1,45 @@
 const graphql = require('graphql')
-const { GraphQLObjectType,GraphQLString,GraphQLSchema,GraphQLID,GraphQLInt } = graphql
+const { 
+        GraphQLObjectType,
+        GraphQLString,
+        GraphQLSchema,
+        GraphQLID,
+        GraphQLInt,
+        GraphQLList 
+     } = graphql
 
-//dummy data
 
-///////////////////////////////////////////////////////////////////////
+
+
 var BookType = new GraphQLObjectType({
     name : 'Book',
     fields : () => ({
         id :  { type : GraphQLID },
         name : {type : GraphQLString},
-        genre : { type : GraphQLString}
+        genre : { type : GraphQLString},
+        author : {
+            type : AuthorType,
+            resolve(parent,args) {    // In graphql we always have the parent data if the relation is nested so its where the parent come into play
+                                        //so we have the autgorid here as the book object is already fetched from the db              
+                
+            }
+        }
     })
 })
 
-///////////////////////////////////////////////////////////////////////
-var AuthorType = new GraphQLObjectType({
+
+var AuthorType = new GraphQLObjectType({ 
     name : 'Author',
     fields : () => ({
-        id :  { type : GraphQLID },
-        name : {type : GraphQLString},
-        age : { type : GraphQLInt}
+        id :  { type : GraphQLID },//we are defining fields in function because it conatins the Othertype which is defined after its definition so its kind of a deadlock
+        name : {type : GraphQLString},//so a function executes after the whole file is read so now the foreign and laterdefined
+        age : { type : GraphQLInt},//Objecttypes are known now
+        books : {
+            type : new GraphQLList(BookType),
+            resolve(parent,args){
+                //will find the books from the collection of books
+            }
+        }
     })
 })
 
@@ -32,6 +52,12 @@ var RootQuery = new GraphQLObjectType({
             resolve(parent,args){
                 //args.id is always available here
                 // Code to get data from the db and other sources
+            }
+        },
+        books : {
+            type : new GraphQLList(BookType),
+            resolve(parent , args){
+                //return the all boooks from the monho
             }
         },
         author : {
