@@ -7,7 +7,7 @@ const app = express()
 
 
 ///////////////////////////////Connecting with the database//////////////////////////////////////////////////
-mongoose.connect('mongodb+srv://rishabh3617:rishabh3617@rishabhsharma-essaz.mongodb.net/test?retryWrites=true&w=majority',{
+mongoose.connect('mongodb+srv://rishabh3617:rishabh3617@rishabhsharma-essaz.mongodb.net/Books_GrpahQL?retryWrites=true&w=majority',{
     useNewUrlParser : true,
     useUnifiedTopology : true
 })
