@@ -1,15 +1,6 @@
 import React , {Component} from 'react';
-import {gql} from 'apollo-boost'  //react does not understand the graphql query language so this package helps us to parse queries and make it react understandale 
 import {graphql} from 'react-apollo' //it helps us to bind apoolo to react
-
-const getAuthorsQuery = gql`
-   {
-       authors{
-           name
-           id
-       }
-   }
-`
+import { getAuthorsQuery } from '../queries/queries'
 
 
 class AddBook extends Component{
