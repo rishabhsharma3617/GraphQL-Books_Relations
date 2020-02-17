@@ -26,7 +26,7 @@ var BookType = new GraphQLObjectType({
             type : AuthorType,
             resolve(parent,args) {    // In graphql we always have the parent data if the relation is nested so its where the parent come into play
                                         //so we have the autgorid here as the book object is already fetched from the db              
-                
+                return Authors.findById(parent.authorId)
             }
         }
     })
@@ -42,7 +42,7 @@ var AuthorType = new GraphQLObjectType({
         books : {
             type : new GraphQLList(BookType),
             resolve(parent,args){
-                //will find the books from the collection of books
+                return Book.find({ authorId : parent.id})
             }
         }
     })
@@ -55,27 +55,26 @@ var RootQuery = new GraphQLObjectType({
             type : BookType,
             args : {id : {type : GraphQLID}}, //this data type is just for the ease of graphql and in the backend its being used and manipulated as a string
             resolve(parent,args){
-                //args.id is always available here
-                // Code to get data from the db and other sources
+                return Book.findById(args.id)
             }
         },
         books : {
             type : new GraphQLList(BookType),
             resolve(parent , args){
-                //return the all boooks from the mongodb
+                return Book.find({})
             }
         },
         author : {
             type : AuthorType,
             args : {id : {type : GraphQLID}},
             resolve(parent,args){
-                //Will use the mongoose code to do the value
+                return author.findById(args.id)
             }
         },
         authors : {
             type : new GraphQLList(AuthorType),
             resolve(parent,args){
-                //it will return the authors from the authors collection
+                return Authors.find({})
             }
         }
     }
@@ -111,7 +110,7 @@ const Mutation =  new GraphQLObjectType({
                     genre : args.genre,
                     authorId : args.authorId
                 })
-                
+
                 return book.save()
             }
         }
